@@ -1,0 +1,178 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## Drill Down Example\n---\n\nThis workbook will show you how to mimic a drilldown in an Azure Workbook"
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "bd3184fd-0d6a-4973-bf9a-93a70261f551",
+            "version": "KqlParameterItem/1.0",
+            "name": "WhichTab",
+            "type": 1,
+            "isGlobal": true,
+            "value": "1",
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 86400000
+            }
+          },
+          {
+            "id": "13176231-1aec-4927-a93b-fcc8c40f8260",
+            "version": "KqlParameterItem/1.0",
+            "name": "X",
+            "type": 1,
+            "isGlobal": true,
+            "isHiddenWhenLocked": true
+          },
+          {
+            "id": "85f6399a-1cb1-491e-8038-fc13f9c13de9",
+            "version": "KqlParameterItem/1.0",
+            "name": "Y",
+            "type": 1,
+            "isGlobal": true,
+            "value": 9352,
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 86400000
+            }
+          },
+          {
+            "id": "d2a4734f-914c-43da-960d-bcaba408a95c",
+            "version": "KqlParameterItem/1.0",
+            "name": "Series",
+            "type": 1,
+            "isGlobal": true,
+            "value": "AuditLogs",
+            "isHiddenWhenLocked": true,
+            "timeContext": {
+              "durationMs": 86400000
+            }
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 4"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "1e01e178-1fc8-46ce-95a5-97abb83ac11d",
+            "cellValue": "WhichTab",
+            "linkTarget": "parameter",
+            "linkLabel": "First Tab",
+            "subTarget": "1",
+            "preText": "",
+            "style": "link"
+          },
+          {
+            "id": "2e13fc68-aa6b-4726-b39e-e0b114ffc9bf",
+            "cellValue": "WhichTab",
+            "linkTarget": "parameter",
+            "linkLabel": "Drill Down Tab",
+            "subTarget": "2",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "links - 3"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "union withsource=_TableName *\n| where _TableName != \"ThreatIntelligenceIndicator\"\n| summarize Count=count() by _TableName\n| render barchart",
+        "size": 1,
+        "timeContext": {
+          "durationMs": 2592000000
+        },
+        "exportedParameters": [
+          {
+            "fieldName": "x",
+            "parameterName": "X",
+            "parameterType": 1
+          },
+          {
+            "fieldName": "y",
+            "parameterName": "Y",
+            "parameterType": 1
+          },
+          {
+            "fieldName": "series",
+            "parameterName": "Series",
+            "parameterType": 1
+          }
+        ],
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "conditionalVisibility": {
+        "parameterName": "WhichTab",
+        "comparison": "isEqualTo",
+        "value": "1"
+      },
+      "name": "query - 2"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "list",
+        "links": [
+          {
+            "id": "08cc7eff-58ef-455f-96de-5bf7c7d4da4c",
+            "cellValue": "WhichTab",
+            "linkTarget": "parameter",
+            "linkLabel": "Drill Down",
+            "subTarget": "2",
+            "style": "link"
+          }
+        ]
+      },
+      "conditionalVisibilities": [
+        {
+          "parameterName": "WhichTab",
+          "comparison": "isEqualTo",
+          "value": "1"
+        },
+        {
+          "parameterName": "X",
+          "comparison": "isNotEqualTo"
+        }
+      ],
+      "name": "links - 5"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "X: {X}\r\n\r\nY: {Y}\r\n\r\nSeries: {Series}",
+        "style": "info"
+      },
+      "conditionalVisibility": {
+        "parameterName": "WhichTab",
+        "comparison": "isEqualTo",
+        "value": "2"
+      },
+      "name": "text - 2"
+    }
+  ],
+  "fallbackResourceIds": [
+    "/subscriptions/9790d913-b5da-460d-b167-ac985d5f3b83/resourcegroups/azuresentinel/providers/microsoft.operationalinsights/workspaces/gabazuresentinel"
+  ],
+  "fromTemplateId": "sentinel-UserWorkbook",
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
